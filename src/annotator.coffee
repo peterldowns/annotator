@@ -89,6 +89,14 @@ class Annotator extends Delegator
     @element.wrapInner(@wrapper)
     @wrapper = @element.find('.annotator-wrapper')
 
+    if @options.popupTarget
+      @popupTarget = $(@options.popupTarget);
+      console.log('new popupTarget:', @popupTarget);
+    else
+      console.log('default popupTarget:', @popupTarget);
+      @popupTarget = @wrapper;
+
+
     this
 
   # Creates an instance of Annotator.Viewer and assigns it to the @viewer
@@ -108,7 +116,7 @@ class Annotator extends Delegator
             $(field).html("<i>#{_t 'No Comment'}</i>")
           this.publish('annotationViewerTextField', [field, annotation])
       })
-      .element.appendTo(@wrapper).bind({
+      .element.appendTo(@popupTarget).bind({
         "mouseover": this.clearViewerHideTimer
         "mouseout":  this.startViewerHideTimer
       })
@@ -132,7 +140,7 @@ class Annotator extends Delegator
           annotation.text = $(field).find('textarea').val()
       })
 
-    @editor.element.appendTo(@wrapper)
+    @editor.element.appendTo(@popupTarget)
     this
 
   # Sets up the selection event listeners to watch mouse actions on the document.
@@ -628,7 +636,8 @@ class Annotator extends Delegator
       .toArray()
 
     # Now show the viewer with the wanted annotations
-    this.showViewer(annotations, Util.mousePosition(event, @wrapper[0]))
+    #this.showViewer(annotations, Util.mousePosition(event, @wrapper[0]))
+    this.showViewer(annotations, Util.mousePosition(event, @popupTarget[0]));
 
   # Annotator#element callback. Sets @ignoreMouseup to true to prevent
   # the annotation selection events firing when the adder is clicked.
@@ -648,10 +657,11 @@ class Annotator extends Delegator
   #
   # Returns nothing.
   onAdderClick: (event) =>
+    console.log('adder click!');
     event?.preventDefault()
 
     # Hide the adder
-    position = @adder.position()
+    position = Util.mousePosition(event, @popupTarget[0]);
     @adder.hide()
 
     # Show a temporary highlight so the user can see what they selected
