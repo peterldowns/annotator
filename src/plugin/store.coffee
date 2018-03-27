@@ -70,6 +70,8 @@ class Annotator.Plugin.Store extends Annotator.Plugin
       destroy: '/annotations/:id'
       search:  '/search'
 
+    onUpdate: null
+
   # Public: The contsructor initailases the Store instance. It requires the
   # Annotator#element and an Object of options.
   #
@@ -192,7 +194,9 @@ class Annotator.Plugin.Store extends Annotator.Plugin
   #
   # Returns registed annotations.
   registerAnnotation: (annotation) ->
+    console.log('newly createda nnotation');
     @annotations.push(annotation)
+    @options.callbacks.create(annotation) if @options.callbacks.create;
 
   # Public: Unregisters an annotation with the Store.
   #
@@ -208,6 +212,7 @@ class Annotator.Plugin.Store extends Annotator.Plugin
   # Returns remaining registed annotations.
   unregisterAnnotation: (annotation) ->
     @annotations.splice(@annotations.indexOf(annotation), 1)
+    @options.callbacks.delete(annotation) if @options.callbacks.delete;
 
   # Public: Extends the provided annotation with the contents of the data
   # Object. Will only extend annotations that have been registered with the
@@ -234,6 +239,9 @@ class Annotator.Plugin.Store extends Annotator.Plugin
     # Update the elements with our copies of the annotation objects (e.g.
     # with ids from the server).
     $(annotation.highlights).data('annotation', annotation)
+    if @options.onUpdate
+      @options.onUpdate(annotation, data)
+    @options.callbacks.update(annotation) if @options.callbacks.update;
 
   # Public: Makes a request to the server for all annotations.
   #
