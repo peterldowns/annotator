@@ -5,3 +5,5 @@
 *.sublime-workspace
 doc/_build/
 node_modules
+.deps
+*.log

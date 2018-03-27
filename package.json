@@ -7,22 +7,27 @@
     "url": "https://github.com/okfn/annotator.git"
   },
   "devDependencies": {
-    "coffee-script": "1.7.x",
-    "uglify-js": "2.3.6",
-    "mapcat": "0.2.0",
+    "chai": "1.5.0",
+    "coffee-script": "^1.7.1",
     "coffeebarx": "0.0.3",
-    "uglifycss": "0.0.5",
+    "connect": "~2.10.1",
+    "iso8601": "",
+    "jwt-simple": "",
+    "mapcat": "^0.2.0",
     "mocha": "1.9.0",
     "mocha-phantomjs": "2.0.1",
-    "chai": "1.5.0",
     "sinon": "1.6.0",
-    "jwt-simple": "",
-    "iso8601": "",
-    "connect": "~2.10.1"
+    "uglify-js": "2.3.6",
+    "uglifycss": "0.0.5"
   },
-  "engines": { "node" : "~0.8.0" },
+  "engines": {
+    "node": "~0.8.0"
+  },
   "scripts": {
     "start": "node ./tools/serve",
     "test": "make REPORTER=spec test"
+  },
+  "dependencies": {
+    "coffeebar": "^1.0.0"
   }
 }

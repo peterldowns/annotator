@@ -69,8 +69,8 @@ annotator.js: $(ANNOTATOR) _preamble.map
 	@mapcat _preamble.map _annotator.map -m annotator.map -j annotator.js
 
 annotator-full.js: $(ANNOTATOR_FULL) _preamble.map
-	@cd ..; coffeebarx $(addprefix src/, $(ANNOTATOR_FULL)) -xso pkg/_annotator-full.js
-	@mapcat _preamble.map _annotator-full.map -m annotator-full.map -j annotator-full.js
+	cd ..; coffeebarx $(addprefix src/, $(ANNOTATOR_FULL)) -xso pkg/_annotator-full.js
+	mapcat _preamble.map _annotator-full.map -m annotator-full.map -j annotator-full.js
 
 annotator.css: ../css/annotator.css
 	@../tools/data_uri_ify <../css/annotator.css >annotator.css
